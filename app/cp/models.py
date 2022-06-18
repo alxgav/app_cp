@@ -1,7 +1,7 @@
-from pyexpat import model
-from turtle import mode
 from uuid import uuid4
 from django.db import models
+
+from decimal import Decimal
 
 
 class TimeStampedModel(models.Model):
@@ -15,7 +15,7 @@ class Order(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     num_order = models.CharField(max_length=255, blank=False)
     time_job = models.DecimalField(max_digits=3, decimal_places=2, blank=False)
-    notes = models.TextField(blank=False)
+    notes = models.TextField(blank=True)
 
     def __str__(self):
         return f'{self.num_order}' 
@@ -29,9 +29,16 @@ class Work_place(TimeStampedModel):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     id_order = models.ForeignKey(Order, on_delete=models.DO_NOTHING)
     day_today = models.DateField(blank=False)
+    psc = models.IntegerField(blank=False)
     job_time = models.DecimalField(max_digits=3, decimal_places=2, blank=False)
-    pre_time = models.IntegerField(blank=False)
-    total_time = models.DecimalField(max_digits=3, decimal_places=2, blank=False)
+    pre_time = models.IntegerField(blank=False, default=0)
+    total_time = models.DecimalField(max_digits=3, decimal_places=2, blank=True)
+
+    @property
+    def total(self):
+        rez = Decimal(((self.psc * self.job_time) + self.pre_time)/60)
+        rez = rez.quantize(Decimal("1.00"))
+        return rez
 
     def __str__(self):
         return f'{self.day_today}' 
