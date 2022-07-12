@@ -1,0 +1,70 @@
+ 
+{% extends "base.html" %}
+
+
+{% block content %}
+<div class="px-5 my-5 text-center">
+    <h1 style="margin-top: 100px;">
+        App for calculate time
+    </h1>
+    <p>This is sample project for calculate work time in a Mebel factory</p>
+</div>
+<form >
+    {% csrf_token %}
+    <div class="row">
+        <div class="col">
+            <input type="date" class="form-control" id="day_today" name="day_today">
+            <div id="dateHelp" class="form-text">Enter your date</div>
+        </div>
+        <div class="col">
+            <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i></button>
+        </div>
+
+    </div>
+
+</form>
+</table>
+<table class="table">
+    <thead>
+        <tr>
+            <th>order</th>
+            <th>quantity</th>
+            <th>time</th>
+            <th>Preparing</th>
+            <th>total</th>
+            <th colspan="2">Action</th>
+        </tr>
+    </thead>
+    
+    <tbody >
+        {% for order in work_list %}
+    <tr id="order-{{ order.id }}" class="order-row">
+        <td>{{ order.id_order }}</td>
+        <td>{{ order.psc }}</td>
+        <td>{{ order.job_time }}</td>
+        <td>{{ order.pre_time }}</td>
+        <td>{{ order.total }}</td>
+        <td class="px-2">
+           
+            <a class="btn btn-primary btn-sm"  href="{% url 'work_list_edit' order.id %}">Edit</a>
+            <a class="btn btn-danger btn-sm"  href="{% url 'work_list_delete' order.id %}">Delete</a>
+           
+
+        </td>
+    </tr>
+    {% empty %}
+    <h3>No items in work list</h3>
+{% endfor %}
+<tr>
+    <td colspan="4"><strong> total in this day</strong>   </td>
+    <td class="" colspan="2"><strong>{{ total_sum }}</strong></td>
+   
+</tr>
+    </tbody>
+
+</table>
+
+
+<a class="btn btn-primary btn-lg add_btn float-end" href="{% url 'work_list_create' %}"><i class="bi bi-plus-lg"></i></a>
+
+{% endblock %}

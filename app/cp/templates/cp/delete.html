@@ -1,0 +1,10 @@
+
+{% load widget_tweaks %}
+{% block content %}
+<h1>Delete</h1>
+<form class="mt-5" method="post">
+    {% csrf_token %}
+    <p>{{work_items.id_order}}</p>
+   <button type="submit">Delete</button>
+</form>
+{% endblock %}

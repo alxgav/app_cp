@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="row justify-content-center"  style=" margin-top: 150px;">
+  <div class="card bg-light w-50 p-0">
+    <div class="card-header">
+      <h1>Login</h1>
+    </div>
+    <div class="card-body">
+      <form method="post">
+        {% csrf_token %}
+  
+  
+        {% for field in form.visible_fields %}
+        <div class="form-group">
+          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field|add_class:'form-control' }}
+          {% for error in field.errors %}
+          <span class="help-block">{{ error }}</span>
+          {% endfor %}
+        </div>
+        {% endfor %}
+  
+        <div class="modal-footer text-muted">
+          <button class="btn btn-primary" type="submit">Login</button>
+        </div>
+  
+      </form>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}
