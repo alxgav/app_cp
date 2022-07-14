@@ -16,8 +16,10 @@ from .models import Work_place, Order
 from django.core.serializers import serialize
 
 from django.contrib.auth.decorators import login_required
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.views.generic.detail import DetailView
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
 
 
 def total(data) -> float:
@@ -36,44 +38,63 @@ def get_order_time(request):
 
 
 
-class Index(ListView):
+class Index(LoginRequiredMixin, ListView):
     model =  Work_place
     context_object_name = 'work_list'
     template_name = 'cp/index.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['work_list'] = context['work_list'].filter(user=self.request.user)
         context['total_sum'] = total(context['work_list'])
         return context
-    
 
 
-class WorkListDetail(DetailView):
+class WorkListDetail(LoginRequiredMixin, DetailView):
     model =  Work_place
     context_object_name = 'work_detail'
     fields = ['id_order', 'user']
     template_name = 'cp/detail.html'
 
-''' Action with worklist'''
+''' CRUD '''
 
-class WorkListCreate(CreateView):
+
+class WorkListCreate(LoginRequiredMixin, CreateView):
     model = Work_place
     context_object_name = 'work_create'
     template_name = 'cp/create.html'
-    fields = '__all__'
+    fields = ['id_order', 'day_today', 'psc', 'job_time', 'pre_time']
     success_url = reverse_lazy('index')
 
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(WorkListCreate, self).form_valid(form)
 
-class WorkListUpdate(UpdateView):
+
+class WorkListUpdate(LoginRequiredMixin, UpdateView):
     model = Work_place
-    fields = '__all__'
+    fields = ['id_order', 'day_today', 'psc', 'job_time', 'pre_time']
     template_name = 'cp/create.html'
     context_object_name = 'work_items'
     success_url = reverse_lazy('index')
 
 
-class WorkListDelete(DeleteView):
+class WorkListDelete(LoginRequiredMixin, DeleteView):
     model = Work_place
     template_name = 'cp/delete.html'
     context_object_name = 'work_items'
     success_url = reverse_lazy('index')
+
+'''LOGIN'''
+
+class CustomLogin(LoginView):
+    template_name = 'cp/auth/login.html'
+    fields = '__all__'
+    redirect_authenticated_user = True
+
+    def get_success_url(self) -> str:
+        return reverse_lazy('index')
+
+
+class RegisterPage(FormView):
+    pass

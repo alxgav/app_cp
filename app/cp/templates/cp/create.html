@@ -12,11 +12,7 @@
         {% render_field form.id_order class="form-control" id="order_" %}
         <div class="invalid-feedback">{{ form.id_order.errors|first }}</div>
     </div>
-    <div class="mb-3">
-        <label for="{{ form.id_user.id_for_label }}" class="form-label" >User</label>
-        {% render_field form.user class="form-control" id="order_" %}
-        <div class="invalid-feedback">{{ form.user.errors|first }}</div>
-    </div>
+    
     <div class="mb-3">
         <label for="{{ form.day_today.day_today_for_label }}" class="form-label">Day</label>
         {% render_field form.day_today class="form-control" type="date" id="day_form"  %}

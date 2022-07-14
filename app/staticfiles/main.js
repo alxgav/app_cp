@@ -1,11 +1,13 @@
-
-; (function () {
-
+window.addEventListener('DOMContentLoaded', () => {
   let today = new Date().toISOString().slice(0, 10)
+  
   let select_date = document.getElementById('day_today')
+  if (select_date != null){
+    select_date.value = today
+  }
+  // console.log(today)
+  // select_date.value = today
 
-  select_date.value = today
-  console.log(today)
 
 
   let order_ = document.getElementById('order_')
@@ -16,7 +18,7 @@
     let data = await response.json()
     data = JSON.parse(data)
     console.log(data)
-    // show(data)
+    show(data)
 
   }
 
@@ -33,5 +35,4 @@
     }
   }
   get_time()
-
-})()
+})
