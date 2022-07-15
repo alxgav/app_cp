@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import  get_order_time,  Index, WorkListDetail, WorkListCreate, WorkListUpdate, WorkListDelete, CustomLogin
+from .views import  get_order_time,  Index, WorkListDetail, WorkListCreate, WorkListUpdate, WorkListDelete, CustomLogin, RegisterPage
 
 from django.contrib.auth.views import LogoutView
 
@@ -14,4 +14,5 @@ urlpatterns = [
     path('work_list_delete/<str:pk>/', WorkListDelete.as_view(), name='work_list_delete'),
     path('login/', CustomLogin.as_view(), name='work_list_login'),
     path('logout/', LogoutView.as_view(next_page = 'work_list_login'), name='work_list_logout'),
+    path('register/', RegisterPage.as_view(), name='work_list_register'),
 ]
