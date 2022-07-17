@@ -13,3 +13,4 @@ class OrderAdmin(admin.ModelAdmin):
 class Work_placeAdmin(admin.ModelAdmin):
     list_display = ('id_order', 'day_today', 'psc', 'pre_time', 'total')
     date_hierarchy = "created_at"
+    list_filter = ('user',)
