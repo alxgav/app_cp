@@ -1,4 +1,3 @@
- 
 {% extends "base.html" %}
 
 
@@ -9,21 +8,21 @@
     </h1>
     <p>This is sample project for calculate work time in a Mebel factory</p>
 </div>
-<form >
+<h4 class="mb-2"><em>Previous work day <strong>{{ last_day }}</strong></em></h4>
+<form method="GET">
     {% csrf_token %}
     <div class="row">
         <div class="col">
-            <input type="date" class="form-control" id="day_today" name="day_today">
-            <div id="dateHelp" class="form-text">Enter your date</div>
+            <input type="date" class="form-control" id="day_today" name="day">
+            <div class="form-text">Enter your date. </div>
         </div>
         <div class="col">
             <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i></button>
         </div>
-
     </div>
-
 </form>
-</table>
+
+
 <table class="table">
     <thead>
         <tr>
@@ -35,36 +34,70 @@
             <th colspan="2">Action</th>
         </tr>
     </thead>
-    
-    <tbody >
-        {% for order in work_list %}
-    <tr id="order-{{ order.id }}" class="order-row">
-        <td>{{ order.id_order }}</td>
-        <td>{{ order.psc }}</td>
-        <td>{{ order.job_time }}</td>
-        <td>{{ order.pre_time }}</td>
-        <td>{{ order.total }}</td>
-        <td class="px-2">
-           
-            <a class="btn btn-primary btn-sm"  href="{% url 'work_list_edit' order.id %}">Edit</a>
-            <a class="btn btn-danger btn-sm"  href="{% url 'work_list_delete' order.id %}">Delete</a>
-           
 
-        </td>
-    </tr>
-    {% empty %}
-    <h3>No items in work list</h3>
-{% endfor %}
-<tr>
-    <td colspan="4"><strong> total in this day</strong>   </td>
-    <td class="" colspan="2"><strong>{{ total_sum }}</strong></td>
-   
-</tr>
+    <tbody>
+        {% for order in work_list %}
+        <tr id="order-{{ order.id }}" class="order-row">
+            <td>{{ order.id_order }}</td>
+            <td>{{ order.psc }}</td>
+            <td>{{ order.job_time }}</td>
+            <td>{{ order.pre_time }}</td>
+            <td>{{ order.total }}</td>
+            <td class="px-2">
+
+                <a class="btn btn-primary btn-sm" href="{% url 'work_list_edit' order.id %}">Edit</a>
+                <a class="btn btn-danger btn-sm" href="{% url 'work_list_delete' order.id %}">Delete</a>
+                <a class="btn btn-danger btn-sm" onclick="del('{{ order.id }}')" data-bs-toggle="modal"
+                    data-bs-target="#deleteModal" data-order-id="{{ order.id_order }} " id="delete-{{ order.id }}" data-url="{% url 'remove' order.id%}">Delete2</a>
+
+            </td>
+        </tr>
+        {% empty %}
+        <h3>No items in work list</h3>
+        {% endfor %}
+
     </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="4"><strong> total in this day</strong> </td>
+            <td class="" colspan="2"><strong>{{ total_sum }}</strong></td>
+
+        </tr>
+    </tfoot>
 
 </table>
 
 
-<a class="btn btn-primary btn-lg add_btn float-end" href="{% url 'work_list_create' %}"><i class="bi bi-plus-lg"></i></a>
+<a class="btn btn-primary btn-lg add_btn float-end" href="{% url 'work_list_create' %}"><i
+        class="bi bi-plus-lg"></i></a>
+
+<!-- delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Remove item </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                remove order by <strong><span id="id_order_text"></span> </strong>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a id="remove_link" href="#" class="btn btn-primary">Remove</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function del(id) {
+        const text_body = document.getElementById('id_order_text')
+        const remove_link = document.getElementById('remove_link')
+        const delete_url = document.getElementById(`delete-${id}`)
+        remove_link.setAttribute('href', delete_url.getAttribute('data-url'))
+        text_body.innerHTML = delete_url.getAttribute('data-order-id')
+    }
+</script>
 
 {% endblock %}

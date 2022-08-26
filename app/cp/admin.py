@@ -11,6 +11,6 @@ class OrderAdmin(admin.ModelAdmin):
 
 @admin.register(Work_place)
 class Work_placeAdmin(admin.ModelAdmin):
-    list_display = ('id_order', 'day_today', 'psc', 'pre_time', 'total')
+    list_display = ('id_order', 'day_today', 'psc', 'pre_time', 'total', 'created_at')
     date_hierarchy = "created_at"
     list_filter = ('user',)

@@ -1,6 +1,6 @@
 <nav class="navbar navbar-light bg-light fixed-top mb-5">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Calculate app 
+      <a class="navbar-brand" href="/">Calculate app 
         {% if request.user.is_authenticated %}
          register by {{ request.user }} {% endif %}</a>
          
@@ -19,7 +19,10 @@
             </li>
             {% if request.user.is_authenticated %}
             <li class="nav-item">
-              <a class="nav-link " aria-current="page" href="#">Order</a>
+              <a class="nav-link " aria-current="page" href="{% url 'orders' %}">Order</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link " aria-current="page" href="{% url 'admin:index' %}" target="_blank">Admin</a>
             </li>
             <li class="dropdown-divider ">
               {% endif %}
