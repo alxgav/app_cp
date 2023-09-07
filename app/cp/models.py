@@ -15,7 +15,7 @@ class TimeStampedModel(models.Model):
 
 class Order(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    num_order = models.CharField(max_length=255, blank=False)
+    num_order = models.CharField(max_length=255, blank=False, unique=True)
     time_job = models.DecimalField(max_digits=3, decimal_places=2, blank=False)
     notes = models.TextField(blank=True)
 
@@ -30,7 +30,7 @@ class Order(models.Model):
 
 class Work_place(TimeStampedModel):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    id_order = models.ForeignKey(Order, on_delete=models.DO_NOTHING)
+    id_order = models.ForeignKey(Order, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True)
     day_today = models.DateField(blank=False)
     psc = models.IntegerField(blank=False)

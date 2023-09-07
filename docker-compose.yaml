@@ -1,0 +1,22 @@
+version: "3.0"
+services:
+  postgres:
+    container_name: "db_cp"
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=123qwe
+      - POSTGRES_DB=cp_data
+    volumes:
+      - database-data:/var/lib/postgresql/data/
+    ports:
+      - '5432:5432'
+    networks:
+      - custom
+networks:
+  custom:
+    driver: bridge
+
+volumes:
+  database-data:

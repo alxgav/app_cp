@@ -52,8 +52,9 @@ class Index(LoginRequiredMixin, ListView):
                 day_today__contains=date_select)
         else:
             last_record = context['work_list'].last()
-            context['work_list'] = context['work_list'].filter(day_today=str(last_record))
-            context['last_day'] = last_record
+            if last_record  is not None:
+                context['work_list'] = context['work_list'].filter(day_today=str(last_record))
+                context['last_day'] = last_record
 
         context['date_select'] = date_select
         context['total_sum'] = total(context['work_list'])

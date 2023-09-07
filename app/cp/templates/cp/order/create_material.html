@@ -1,0 +1,47 @@
+
+{% extends "base.html" %}
+ {% load widget_tweaks %}
+ 
+ {% block content %}
+ {% with WIDGET_ERROR_CLASS="is-invalid" %}
+ <div class="row justify-content-center"  style=" margin-top: 150px;">
+    <form class="mt-5" method="post">
+        {% csrf_token %}
+        <div class="card">
+            <div class="card-header">
+                {% if materials %}Edit material{% else %}Add new material{% endif %}
+              </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label for="{{ form.num_order.num_order_for_label }}" class="form-label" >Order</label>
+                    {% render_field form.num_order class="form-control"  %}
+                    <div class="invalid-feedback">{{ form.num_order.errors|first }}</div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="{{ form.time_job.time_job_for_label }}" class="form-label">Time</label>
+                    {% render_field form.time_job class="form-control"  %}
+                    
+                    <div class="invalid-feedback">{{ form.time_job.errors|first }}</div>
+                </div>
+                <div class="mb-3">
+                    <label for="{{ form.notes.notes_for_label }}" class="form-label">Note</label>
+                    {% render_field form.notes class="form-control" %}
+                    <div class="invalid-feedback">{{ form.notes.errors|first }}</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-lg">Save</button>
+                    <a class="btn btn-secondary btn-lg float-end" href="{% url 'materials' %}">Back to materials</i></a>
+                </div>
+            </div>
+          </div>
+        
+        
+    </form>
+</div>
+ 
+ {% endwith %}
+ {% endblock %}
+
+
+

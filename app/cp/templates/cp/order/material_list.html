@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="px-5 my-5 text-center" >
+    <h2  style="margin-top: 100px;">Materials list</h2>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Material</th>
+            <th>Time</th>
+            <th>Note</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in material_list %}
+        <tr id="order-{{ item.id }}" class="order-row">
+            <td>{{ item.num_order }}</td>
+            <td>{{ item.time_job }}</td>
+            <td>{{ item.notes }}</td>
+            <td class="px-2">
+                <a class="btn btn-primary btn-sm"  href="{% url 'material_edit' item.id %}"><i class="bi bi-pencil"></i></a>
+                <a class="btn btn-danger btn-sm" onclick="del('{{ item.id }}')" data-bs-toggle="modal"
+                    data-bs-target="#deleteModal" data-id="{{ item.num_order }} "  id="delete-{{ item.id }}" data-url="{% url 'remove_material' item.id%}"><i class="bi bi-trash"></i></a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+<a class="btn btn-primary btn-lg add_btn float-end" href="{% url 'materials_create' %}"><i class="bi bi-plus-lg"></i></a>
+<!-- delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Remove item </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                remove material by <strong><span id="id_material_text"></span> </strong>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a id="remove_link" href="#" class="btn btn-primary">Remove</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function del(id) {
+        const text_body = document.getElementById('id_material_text')
+        const remove_link = document.getElementById('remove_link')
+        const delete_url = document.getElementById(`delete-${id}`)
+        remove_link.setAttribute('href', delete_url.getAttribute('data-url'))
+        text_body.innerHTML = delete_url.getAttribute('data-id')
+    }
+</script>
+
+{% endblock %}

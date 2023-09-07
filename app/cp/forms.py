@@ -2,13 +2,16 @@ from django import forms
 from .models import Order, Work_place
 
 
-class OrderForm(forms.ModelForm):
+class MaterialForm(forms.ModelForm):
     class Meta:
         model = Order
         fields = ("num_order",
                   'time_job',
                   'notes')
 
+
+class DateInput(forms.DateInput):
+    input_type = 'date'
 
 class WorkForm(forms.ModelForm):
     class Meta:
@@ -20,6 +23,9 @@ class WorkForm(forms.ModelForm):
             'job_time',
             'pre_time',
         )
+        widgets = {
+            'dateField': DateInput
+        }
 
 class SearchForm(forms.ModelForm):
     class Meta:

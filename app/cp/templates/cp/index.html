@@ -8,19 +8,28 @@
     </h1>
     <p>This is sample project for calculate work time in a Mebel factory</p>
 </div>
-<h4 class="mb-2"><em>Previous work day <strong>{{ last_day }}</strong></em></h4>
-<form method="GET">
-    {% csrf_token %}
-    <div class="row">
-        <div class="col">
-            <input type="date" class="form-control" id="day_today" name="day">
-            <div class="form-text">Enter your date. </div>
+<div class="head_board d-flex">
+   <div>
+    <h4 class="mb-2"><em>Previous work day <strong>{{ last_day }}</strong></em></h4>
+    <form method="GET">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col">
+                <input type="date" class="form-control " id="day_today" name="day">
+                <div class="form-text">Enter your date. </div>
+            </div>
+            <div class="col">
+                <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i></button>
+            </div>
         </div>
-        <div class="col">
-            <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i></button>
-        </div>
-    </div>
-</form>
+    </form>
+   </div>
+   <div>
+
+   </div>
+
+</div>
+
 
 
 <table class="table">
@@ -45,10 +54,9 @@
             <td>{{ order.total }}</td>
             <td class="px-2">
 
-                <a class="btn btn-primary btn-sm" href="{% url 'work_list_edit' order.id %}">Edit</a>
-                <a class="btn btn-danger btn-sm" href="{% url 'work_list_delete' order.id %}">Delete</a>
+                <a class="btn btn-primary btn-sm" href="{% url 'work_list_edit' order.id %}"><i class="bi bi-pencil"></i></a>
                 <a class="btn btn-danger btn-sm" onclick="del('{{ order.id }}')" data-bs-toggle="modal"
-                    data-bs-target="#deleteModal" data-order-id="{{ order.id_order }} " id="delete-{{ order.id }}" data-url="{% url 'remove' order.id%}">Delete2</a>
+                    data-bs-target="#deleteModal" data-order-id="{{ order.id_order }} " id="delete-{{ order.id }}" data-url="{% url 'remove' order.id%}"><i class="bi bi-trash"></i></a>
 
             </td>
         </tr>
@@ -89,6 +97,8 @@
         </div>
     </div>
 </div>
+
+
 
 <script>
     function del(id) {
